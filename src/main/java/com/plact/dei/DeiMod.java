@@ -1,9 +1,12 @@
 package com.plact.dei;
 
 import com.plact.dei.items.DivineSyringeItem;
+import com.plact.dei.items.IchorSyringeItem;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.registries.*;
 import org.slf4j.Logger;
@@ -36,22 +39,38 @@ public class DeiMod
 {
     public static final String MODID = "dei";
     private static final Logger LOGGER = LogUtils.getLogger();
+
+    // REGISTERS
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MODID);
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(Registries.FLUID, MODID);
+    public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, MODID);
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
+
+    // DAMAGE TYPES
     public static final ResourceKey<DamageType> SYRINGE_DAMAGE = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(DeiMod.MODID, "syringe"));
 
-    public static final DeferredItem<DivineSyringeItem> DIVINE_NEEDLE_ITEM = ITEMS.registerItem("divine_syringe", DivineSyringeItem::new, new Item.Properties());
+    // TAGS
+    public static final TagKey<EntityType<?>> GOD_TAG = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(MODID, "gods"));
 
+    // ITEMS
+    public static final DeferredItem<DivineSyringeItem> DIVINE_SYRINGE_ITEM = ITEMS.registerItem("divine_syringe", DivineSyringeItem::new, new Item.Properties());
+    public static final DeferredItem<IchorSyringeItem> ICHOR_SYRINGE_ITEM = ITEMS.registerItem("ichor_syringe", IchorSyringeItem::new, new Item.Properties());
+
+    // BLOCKS
+
+    // FLUIDS
+
+    // CREATIVE TABS
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register(
-            "dei",
+            "dei_main",
             () -> CreativeModeTab.builder()
-                .title(Component.translatable("itemGroup.dei")) //The language key for the title of your CreativeModeTab
+                .title(Component.translatable("itemGroup.dei_main")) //The language key for the title of your CreativeModeTab
                 .withTabsBefore(CreativeModeTabs.COMBAT)
-                .icon(() -> DIVINE_NEEDLE_ITEM.get().getDefaultInstance())
+                .icon(() -> ICHOR_SYRINGE_ITEM.get().getDefaultInstance())
                 .displayItems((parameters, output) -> {
-                    output.accept(DIVINE_NEEDLE_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
+                    output.accept(DIVINE_SYRINGE_ITEM.get());
+                    output.accept(ICHOR_SYRINGE_ITEM.get());
                 }).build()
     );
 
@@ -61,14 +80,12 @@ public class DeiMod
     {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
-
         // Register the Deferred Register to the mod event bus so blocks get registered
         BLOCKS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so items get registered
         ITEMS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so tabs get registered
         CREATIVE_MODE_TABS.register(modEventBus);
-
         NeoForge.EVENT_BUS.register(this);
 
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
