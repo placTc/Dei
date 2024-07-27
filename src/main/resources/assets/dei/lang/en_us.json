@@ -1,4 +1,5 @@
 {
-  "itemGroup.dei": "Dei",
-  "item.dei.divine_syringe": "Divine Syringe"
+  "itemGroup.dei_main": "Dei",
+  "item.dei.divine_syringe": "Divine Syringe",
+  "item.dei.ichor_syringe": "Syringe of Ichor"
 }
