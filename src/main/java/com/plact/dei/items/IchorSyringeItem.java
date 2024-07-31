@@ -20,20 +20,6 @@ public class IchorSyringeItem extends Item {
         return new Properties().stacksTo(1);
     }
 
-    public void EntityInteraction(Player player, ItemStack itemStack, Entity target, Level level, InteractionHand hand) {
-    }
-
-    @EventBusSubscriber(modid=DeiMod.MODID)
-    static class EntityInteractSpecificEventHandler {
-        @SubscribeEvent
-        public static void entityInteract(PlayerInteractEvent.EntityInteractSpecific event) {
-            if (!event.isCanceled()) {
-                ItemStack itemStack = event.getItemStack();
-                if (itemStack.getItem() instanceof IchorSyringeItem) {
-                    ((IchorSyringeItem) itemStack.getItem()).EntityInteraction(event.getEntity(), itemStack, event.getTarget(), event.getLevel(), event.getHand());
-                    event.setCancellationResult(InteractionResult.SUCCESS);
-                }
-            }
-        }
+    public void EntityInteractionOnEvent(Player player, ItemStack itemStack, Entity target, Level level, InteractionHand hand) {
     }
 }

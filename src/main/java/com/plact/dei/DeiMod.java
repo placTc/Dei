@@ -1,13 +1,17 @@
 package com.plact.dei;
 
-import com.plact.dei.items.DivineSyringeItem;
-import com.plact.dei.items.IchorSyringeItem;
+import com.plact.dei.blocks.DeiBlocks;
+import com.plact.dei.creative_tabs.DeiCreativeTabs;
+import com.plact.dei.fluids.DeiFluids;
+import com.plact.dei.items.DeiItems;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.material.Fluid;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.registries.*;
 import org.slf4j.Logger;
 
@@ -16,10 +20,6 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -41,38 +41,12 @@ public class DeiMod
     private static final Logger LOGGER = LogUtils.getLogger();
 
     // REGISTERS
-    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MODID);
-    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
-    public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(Registries.FLUID, MODID);
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, MODID);
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
     // DAMAGE TYPES
     public static final ResourceKey<DamageType> SYRINGE_DAMAGE = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(DeiMod.MODID, "syringe"));
 
     // TAGS
-    public static final TagKey<EntityType<?>> GOD_TAG = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(MODID, "gods"));
-
-    // ITEMS
-    public static final DeferredItem<DivineSyringeItem> DIVINE_SYRINGE_ITEM = ITEMS.registerItem("divine_syringe", DivineSyringeItem::new, new Item.Properties());
-    public static final DeferredItem<IchorSyringeItem> ICHOR_SYRINGE_ITEM = ITEMS.registerItem("ichor_syringe", IchorSyringeItem::new, new Item.Properties());
-
-    // BLOCKS
-
-    // FLUIDS
-
-    // CREATIVE TABS
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register(
-            "dei_main",
-            () -> CreativeModeTab.builder()
-                .title(Component.translatable("itemGroup.dei_main")) //The language key for the title of your CreativeModeTab
-                .withTabsBefore(CreativeModeTabs.COMBAT)
-                .icon(() -> ICHOR_SYRINGE_ITEM.get().getDefaultInstance())
-                .displayItems((parameters, output) -> {
-                    output.accept(DIVINE_SYRINGE_ITEM.get());
-                    output.accept(ICHOR_SYRINGE_ITEM.get());
-                }).build()
-    );
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
@@ -80,12 +54,12 @@ public class DeiMod
     {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
-        // Register the Deferred Register to the mod event bus so blocks get registered
-        BLOCKS.register(modEventBus);
-        // Register the Deferred Register to the mod event bus so items get registered
-        ITEMS.register(modEventBus);
-        // Register the Deferred Register to the mod event bus so tabs get registered
-        CREATIVE_MODE_TABS.register(modEventBus);
+
+        DeiFluids.register(modEventBus);
+        DeiBlocks.register(modEventBus);
+        DeiItems.register(modEventBus);
+        DeiCreativeTabs.register(modEventBus);
+
         NeoForge.EVENT_BUS.register(this);
 
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
@@ -118,12 +92,18 @@ public class DeiMod
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
         {
-            // Some client setup code
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+            ItemBlockRenderTypes.setRenderLayer(DeiFluids.BLOOD_FLUID.getSourceFluid(), RenderType.solid());
+            ItemBlockRenderTypes.setRenderLayer(DeiFluids.BLOOD_FLUID.getFlowingFluid(), RenderType.solid());
+
+
         }
 
         @SubscribeEvent
         static void registerRegistries(NewRegistryEvent event) {}
+
+        @SubscribeEvent
+        static void registerClientExtensions(RegisterClientExtensionsEvent event) {
+            DeiFluids.registerClientFluidExtensions(event);
+        }
     }
 }
