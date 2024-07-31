@@ -1,5 +1,7 @@
 package com.plact.dei.fluids.fluid_types;
 
+import com.plact.dei.fluids.fluid_types.infra.DeiBaseFluidType;
+import com.plact.dei.fluids.fluid_types.infra.DeiClientFluidTypeExtensions;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.joml.Vector3f;

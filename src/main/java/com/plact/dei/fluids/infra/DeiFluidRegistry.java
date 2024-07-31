@@ -1,7 +1,7 @@
-package com.plact.dei.fluids;
+package com.plact.dei.fluids.infra;
 
 import com.plact.dei.DeiMod;
-import com.plact.dei.fluids.fluid_types.DeiBaseFluidType;
+import com.plact.dei.fluids.fluid_types.infra.DeiBaseFluidType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BucketItem;
@@ -42,13 +42,16 @@ public class DeiFluidRegistry {
              Supplier<TYPE> fluidTypeSupplier,
              @NotNull Function<BaseFlowingFluid.Properties, FLOWING> flowingFluidConstructor,
              @NotNull Function<BaseFlowingFluid.Properties, SOURCE> sourceFluidConstructor,
-             Function<BaseFlowingFluid.Properties, BaseFlowingFluid.Properties> propertiesModification,
              Function<FlowingFluid, BLOCK> fluidBlockConstructor,
-             Function<FlowingFluid, BUCKET> bucketConstructor)
+             Function<FlowingFluid, BUCKET> bucketConstructor,
+             Function<BaseFlowingFluid.Properties, BaseFlowingFluid.Properties> propertiesModification
+    )
     {
+        DeferredHolder<FluidType, TYPE> fluidType = deiFluidTypes.register(fluidName, fluidTypeSupplier);
+
         ResourceLocation baseKey = ResourceLocation.fromNamespaceAndPath(DeiMod.MODID, fluidName);
         BaseFlowingFluid.Properties fluidProperties = new BaseFlowingFluid.Properties(
-                fluidTypeSupplier,
+                fluidType,
                 DeferredHolder.create(Registries.FLUID, baseKey.withSuffix("_source")),
                 DeferredHolder.create(Registries.FLUID, baseKey.withSuffix("_flowing"))
         )
@@ -56,7 +59,6 @@ public class DeiFluidRegistry {
                 .bucket(DeferredHolder.create(Registries.ITEM, baseKey.withSuffix("_bucket")));
         BaseFlowingFluid.Properties finalFluidProperties = propertiesModification.apply(fluidProperties);
 
-        DeferredHolder<FluidType, TYPE> fluidType = deiFluidTypes.register(fluidName, fluidTypeSupplier);
         DeferredHolder<Fluid, SOURCE> sourceFluid = deiFluids.register(fluidName + "_source", () -> sourceFluidConstructor.apply(finalFluidProperties));
         DeferredHolder<Fluid, FLOWING> flowingFluid = deiFluids.register(fluidName + "_flowing", () -> flowingFluidConstructor.apply(finalFluidProperties));
         DeferredHolder<Block, BLOCK> fluidBlock = deiFluidBlocks.register(fluidName + "_block", () -> fluidBlockConstructor.apply(sourceFluid.get()));

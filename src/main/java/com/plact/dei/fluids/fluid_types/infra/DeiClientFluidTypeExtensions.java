@@ -1,8 +1,7 @@
-package com.plact.dei.fluids.fluid_types;
+package com.plact.dei.fluids.fluid_types.infra;
 
 import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -19,7 +18,7 @@ public class DeiClientFluidTypeExtensions implements IClientFluidTypeExtensions 
     private final ResourceLocation overlayTexture;
     private final Vector3f fogColor;
 
-    DeiClientFluidTypeExtensions(ResourceLocation stillTexture, ResourceLocation flowingTexture, ResourceLocation overlayTexture, int tintColor, Vector3f fogColor) {
+    public DeiClientFluidTypeExtensions(ResourceLocation stillTexture, ResourceLocation flowingTexture, ResourceLocation overlayTexture, int tintColor, Vector3f fogColor) {
         this.tintColor = tintColor;
         this.stillTexture = stillTexture;
         this.flowingTexture = flowingTexture;

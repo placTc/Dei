@@ -1,6 +1,7 @@
-package com.plact.dei.fluids.fluid_types;
+package com.plact.dei.fluids.fluid_types.infra;
 
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.fluids.FluidType;
 
 public class DeiBaseFluidType extends FluidType {
@@ -11,7 +12,7 @@ public class DeiBaseFluidType extends FluidType {
         this.clientExtensions = clientExtensions;
     }
 
-    public IClientFluidTypeExtensions getClientExtensions() {
-        return clientExtensions;
+    public void registerClientExtensions(RegisterClientExtensionsEvent e) {
+        e.registerFluidType(clientExtensions, this);
     }
 }

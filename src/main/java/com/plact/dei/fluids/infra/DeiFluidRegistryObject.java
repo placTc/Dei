@@ -1,6 +1,6 @@
-package com.plact.dei.fluids;
+package com.plact.dei.fluids.infra;
 
-import com.plact.dei.fluids.fluid_types.DeiBaseFluidType;
+import com.plact.dei.fluids.fluid_types.infra.DeiBaseFluidType;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
