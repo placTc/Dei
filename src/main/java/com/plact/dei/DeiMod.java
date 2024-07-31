@@ -94,8 +94,8 @@ public class DeiMod
         {
             ItemBlockRenderTypes.setRenderLayer(DeiFluids.BLOOD_FLUID.getSourceFluid(), RenderType.solid());
             ItemBlockRenderTypes.setRenderLayer(DeiFluids.BLOOD_FLUID.getFlowingFluid(), RenderType.solid());
-
-
+            ItemBlockRenderTypes.setRenderLayer(DeiFluids.ICHOR_FLUID.getSourceFluid(), RenderType.solid());
+            ItemBlockRenderTypes.setRenderLayer(DeiFluids.ICHOR_FLUID.getFlowingFluid(), RenderType.solid());
         }
 
         @SubscribeEvent

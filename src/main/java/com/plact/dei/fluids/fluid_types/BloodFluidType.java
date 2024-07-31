@@ -13,7 +13,7 @@ public class BloodFluidType extends DeiBaseFluidType {
                 new DeiClientFluidTypeExtensions(
                         ResourceLocation.parse("dei:block/blood_still"),
                         ResourceLocation.parse("dei:block/blood_flow"),
-                        ResourceLocation.parse("dei:block/blood_overlay"),
+                        ResourceLocation.parse("dei:textures/misc/in_blood.png"),
                         0xFFFFFFF,
                         new Vector3f(40f / 255, 0f / 255, 0f / 255)
                 )
