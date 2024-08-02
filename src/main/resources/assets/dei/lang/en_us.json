@@ -1,5 +1,8 @@
 {
   "itemGroup.dei_main": "Dei",
   "item.dei.divine_syringe": "Divine Syringe",
-  "item.dei.ichor_syringe": "Syringe of Ichor"
+  "item.dei.ichor_syringe": "Syringe of Ichor",
+  "item.dei.blood_fluid_bucket": "Bucket of Blood",
+  "item.dei.ichor_fluid_bucket": "Bucket of Ichor",
+  "block.dei.separator": "Separator"
 }

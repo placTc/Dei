@@ -71,6 +71,11 @@ public class DeiFluidRegistry {
         return deiFluidTypes.getEntries();
     }
 
+    public Collection<DeferredHolder<Item,? extends Item>> getBucketItems() {
+        return deiBucketItems.getEntries();
+    }
+
+
     public void register(IEventBus modEventBus) {
         deiFluidTypes.register(modEventBus);
         deiFluids.register(modEventBus);

@@ -24,6 +24,8 @@ public class DeiCreativeTabs {
                         output.accept(DeiItems.DIVINE_SYRINGE_ITEM.get());
                         output.accept(DeiItems.ICHOR_SYRINGE_ITEM.get());
                         output.accept(DeiFluids.BLOOD_FLUID.getBucketItem());
+                        output.accept(DeiFluids.ICHOR_FLUID.getBucketItem());
+                        output.accept(DeiItems.SEPARATOR_BLOCK_ITEM.get());
                     }).build()
     );
 

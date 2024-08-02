@@ -1,6 +1,9 @@
 package com.plact.dei;
 
 import com.plact.dei.blocks.DeiBlocks;
+import com.plact.dei.blocks.block_entities.separator.SeparatorBlockEntityRenderer;
+import com.plact.dei.blocks.block_entities.DeiBlockEntityTypes;
+import com.plact.dei.client.DeiModelLayers;
 import com.plact.dei.creative_tabs.DeiCreativeTabs;
 import com.plact.dei.fluids.DeiFluids;
 import com.plact.dei.items.DeiItems;
@@ -10,14 +13,13 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.level.material.Fluid;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.registries.*;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Blocks;
@@ -59,6 +61,7 @@ public class DeiMod
         DeiBlocks.register(modEventBus);
         DeiItems.register(modEventBus);
         DeiCreativeTabs.register(modEventBus);
+        DeiBlockEntityTypes.register(modEventBus);
 
         NeoForge.EVENT_BUS.register(this);
 
@@ -96,6 +99,16 @@ public class DeiMod
             ItemBlockRenderTypes.setRenderLayer(DeiFluids.BLOOD_FLUID.getFlowingFluid(), RenderType.solid());
             ItemBlockRenderTypes.setRenderLayer(DeiFluids.ICHOR_FLUID.getSourceFluid(), RenderType.solid());
             ItemBlockRenderTypes.setRenderLayer(DeiFluids.ICHOR_FLUID.getFlowingFluid(), RenderType.solid());
+        }
+
+        @SubscribeEvent
+        public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+            event.registerBlockEntityRenderer(DeiBlockEntityTypes.SEPARATOR_BLOCK_ENTITY_TYPE.get(), SeparatorBlockEntityRenderer::new);
+        }
+
+        @SubscribeEvent
+        public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
+            event.registerLayerDefinition(DeiModelLayers.SEPARATOR, SeparatorBlockEntityRenderer::createBodyLayer);
         }
 
         @SubscribeEvent

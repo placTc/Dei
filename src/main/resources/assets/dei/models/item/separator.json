@@ -1,0 +1,6 @@
+{
+  "parent": "dei:block/separator_parent",
+  "textures": {
+    "separator": "dei:block/separator"
+  }
+}

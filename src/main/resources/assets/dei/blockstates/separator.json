@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "dei:block/separator",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "dei:block/separator",
+      "y": 270
+    },
+    "facing=west": {
+      "model": "dei:block/separator"
+    },
+    "facing=east": {
+      "model": "dei:block/separator",
+      "y": 180
+    }
+  }
+}
