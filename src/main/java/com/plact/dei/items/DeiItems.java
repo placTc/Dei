@@ -3,6 +3,7 @@ package com.plact.dei.items;
 import com.plact.dei.DeiMod;
 import com.plact.dei.blocks.SeparatorBlock;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.DoubleHighBlockItem;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -16,8 +17,8 @@ public class DeiItems {
 
     public static final DeferredItem<DivineSyringeItem> DIVINE_SYRINGE_ITEM = DEI_ITEMS.registerItem("divine_syringe", DivineSyringeItem::new, new Item.Properties());
     public static final DeferredItem<IchorSyringeItem> ICHOR_SYRINGE_ITEM = DEI_ITEMS.registerItem("ichor_syringe", IchorSyringeItem::new, new Item.Properties());
-    public static final DeferredHolder<Item, SeparatorBlockItem> SEPARATOR_BLOCK_ITEM = DEI_ITEMS.register("separator", () ->
-            new SeparatorBlockItem(SEPARATOR_BLOCK.get(), new Item.Properties().stacksTo(64)));
+    public static final DeferredHolder<Item, DoubleHighBlockItem> SEPARATOR_BLOCK_ITEM = DEI_ITEMS.register("separator", () ->
+            new DoubleHighBlockItem(SEPARATOR_BLOCK.get(), new Item.Properties()));
 
     public static void register(IEventBus modEventBus) {
         DEI_ITEMS.register(modEventBus);

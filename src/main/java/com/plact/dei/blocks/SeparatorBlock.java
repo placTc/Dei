@@ -8,6 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -65,7 +66,14 @@ public class SeparatorBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        BlockPos pos = context.getClickedPos();
+        Level level = context.getLevel();
+        if (pos.above().getY() < level.getMaxBuildHeight() - 1 && level.getBlockState(pos.above()).canBeReplaced(context)) {
+            return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
@@ -119,5 +127,6 @@ public class SeparatorBlock extends BaseEntityBlock {
     @Override
     public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
         return super.playerWillDestroy(level, pos, state, player);
+        // prevent drop from top block
     }
 }
