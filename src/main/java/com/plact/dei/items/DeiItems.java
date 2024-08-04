@@ -2,6 +2,7 @@ package com.plact.dei.items;
 
 import com.plact.dei.DeiMod;
 import com.plact.dei.blocks.SeparatorBlock;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DoubleHighBlockItem;
 import net.minecraft.world.item.Item;
